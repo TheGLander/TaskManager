@@ -1,7 +1,7 @@
 if (!localStorage.getItem("Tasks")) {
     var tasks = ["Call mum", "Dance"]
 } else {
-    var tasks = localStorage.getItem("Tasks").split(",")
+    var tasks = JSON.parse(localStorage.getItem("Tasks"))
 }
 
 function RefreshTasks() {
@@ -10,7 +10,7 @@ function RefreshTasks() {
         document.getElementById("tasks").innerHTML += "<li>" + tasks[i] +
             '<input type="button" id="my_centered_buttons" value="Done" onclick="RemoveTask(' + i + ')" >\n'
     }
-    localStorage.setItem("Tasks", tasks);
+    localStorage.setItem("Tasks", JSON.stringify(tasks));
 }
 
 function AddTask() {
