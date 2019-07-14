@@ -1,52 +1,23 @@
 <!DOCTYPE html>
 <html>
-	<head>
+
+<head>
     <meta charset="UTF-8">
-		<title>Task manager</title>
-	</head>
-	<body>
+    <title>Task manager</title>
+    <script src="webtoolkit.base64.js"></script>
+</head>
+
+<body>
 
     <h1>Task manager!</h1>
-	   <ol id="tasks">
-     </ol>
-     <input type="text" id="TaskName"><input type="button" value="Add" id="AddTask" onclick="AddTask()">
-     <p><input type="button" value="Reset" onclick="ResetTasks()">
-     <script>
-     var firstTime = localStorage.getItem("first_time");
-     if(!firstTime) {
-              var tasks = ["Call mum","Dance"]
-              localStorage.setItem("first_time","1");
-    }else{
-        var tasks = localStorage.getItem("Tasks").split(",")
-    }
-        
-        function RefreshTasks(){
-            document.getElementById("tasks").innerHTML = ""
-            for(var i = 0;i != tasks.length;i++){
-            document.getElementById("tasks").innerHTML += "<li>" + tasks[i] + '<input type="button" value="Done" onclick="RemoveTask(' + i + ')" >\n'
-            }
-            localStorage.setItem("Tasks", tasks);
-        }
-        function AddTask(){
-            tasks.push(document.getElementById("TaskName").value)
-            document.getElementById("TaskName").value = ""
-            RefreshTasks()
-        }
-        function RemoveTask(id){
-            
-            tasks.splice(id,1)
-            
-            if(tasks.length == 0){
-                tasks.push("Add more tasks")
-            }
-            RefreshTasks()
-        }
-        function ResetTasks(){
-          tasks = ["Call mum","Dance"]
-          RefreshTasks()
-        }
-        RefreshTasks()
-        </script>
-     
-	</body>
+    <ol id="tasks">
+    </ol>
+    <input type="text" id="TaskName"><input type="button" value="Add" id="AddTask" onclick="AddTask()">
+    <p><input type="button" value="Reset" onclick="ResetTasks()"></p>
+    <p><input type="button" value="Import" onclick="ImportTasks()">
+    <input type="button" value="Export" onclick="ExportTasks()">
+    <input type="text" id="Code"></p>
+    <script src="tasks.js"></script>
+
+</body>
 </html>
