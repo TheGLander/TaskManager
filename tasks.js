@@ -1,42 +1,51 @@
-if (!localStorage.getItem("Tasks")) {
-    var tasks = ["Call mum", "Dance"]
+const version = "1.1-beta"
+if (!localStorage.getItem("Save")) {
+    var save = {
+        "tasks": ["Call mum", "Dance"],
+        "version": version
+    }
 } else {
-    var tasks = JSON.parse(localStorage.getItem("Tasks"))
+    var save = JSON.parse(localStorage.getItem("Save"))
 }
+if (save.version != version) {
+    alert("WARNING\nSave file is from another version, please contact Lubomir for help.")
+}
+
 
 function RefreshTasks() {
     document.getElementById("tasks").innerHTML = ""
-    for (var i = 0; i != tasks.length; i++) {
-        document.getElementById("tasks").innerHTML += "<li>" + tasks[i] +
+    for (var i = 0; i != save.tasks.length; i++) {
+        document.getElementById("tasks").innerHTML += "<li>" + save.tasks[i] +
             '<input type="button" id="my_centered_buttons" value="Done" onclick="RemoveTask(' + i + ')" >\n'
     }
-    localStorage.setItem("Tasks", JSON.stringify(tasks));
+    localStorage.setItem("Save", JSON.stringify(save));
+    save.version = version
 }
 
 function AddTask() {
-    tasks.push(document.getElementById("TaskName").value)
+    save.tasks.push(document.getElementById("TaskName").value)
     document.getElementById("TaskName").value = ""
     RefreshTasks()
 }
 
 function RemoveTask(id) {
 
-    tasks.splice(id, 1)
+    save.tasks.splice(id, 1)
 
-    if (tasks.length == 0) {
-        tasks.push("Add more tasks")
+    if (save.tasks.length == 0) {
+        save.tasks.push("Add more tasks")
     }
     RefreshTasks()
 }
 
 function ResetTasks() {
-    tasks = ["Call mum", "Dance"]
+    save.tasks = ["Call mum","Dance"]
     RefreshTasks()
 }
 
 function ImportTasks() {
     try {
-        if (JSON.parse(Base64.decode(document.getElementById("Code").value)).some(i => typeof i !== "string")) {
+        if (JSON.parse(Base64.decode(document.getElementById("Code").value)).tasks.some(i => typeof i !== "string")) {
             throw "Not only strings in the array OR not an array.";
         }
     } catch (err) {
@@ -44,12 +53,16 @@ function ImportTasks() {
         console.error(err)
         return "Evil";
     }
-    tasks = JSON.parse(Base64.decode(document.getElementById("Code").value))
+    save = JSON.parse(Base64.decode(document.getElementById("Code").value))
+    if (save.version != version) {
+        alert("WARNING\nSave file is from another version, please contact Lubomir for help.")
+    }
     RefreshTasks()
 }
+
 function ExportTasks() {
     try {
-        if (tasks.some(i => typeof i !== "string")) {
+        if (save.tasks.some(i => typeof i !== "string") || !save.version) {
             throw "Not only strings in the array OR not an array.";
         }
     } catch (err) {
@@ -57,7 +70,7 @@ function ExportTasks() {
         console.error(err)
         return "Corrupted.";
     }
-    document.getElementById("Code").value = Base64.encode(JSON.stringify(tasks))
+    document.getElementById("Code").value = Base64.encode(JSON.stringify(save))
 }
 inputId = document.getElementById('TaskName');
 inputId.addEventListener('keyup', function onEvent(e) {
