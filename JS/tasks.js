@@ -1,5 +1,5 @@
-const version = "1.1-beta"
-const build = "15"
+const version = "1.1"
+const build = "19"
 var curEdit = -1
 if (!localStorage.getItem("Save")) {
     var save = {
