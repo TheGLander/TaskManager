@@ -1,4 +1,5 @@
 const version = "1.1-beta"
+var curEdit = -1
 if (!localStorage.getItem("Save")) {
     var save = {
         "tasks": ["Call mum", "Dance"],
@@ -15,7 +16,7 @@ if (save.version != version) {
 function RefreshTasks() {
     document.getElementById("tasks").innerHTML = ""
     for (var i = 0; i != save.tasks.length; i++) {
-        document.getElementById("tasks").innerHTML += `<li><div id="task${i}">${save.tasks[i]}<a href="javascript:RemoveTask(${i})" title="Done" >✅</a><a href="javascript:RemoveTask(${i})" title="Edit" >✏️</a></div>\n`
+        document.getElementById("tasks").innerHTML += `<li><div id="task${i}">${save.tasks[i]}<a href="javascript:RemoveTask(${i})" title="Done" >✅</a><a href="javascript:EditTask(${i})" title="Edit" >✏️</a></div>\n`
     }
     localStorage.setItem("Save", JSON.stringify(save));
     save.version = version
@@ -71,12 +72,6 @@ function ExportTasks() {
     }
     document.getElementById("Code").value = Base64.encode(JSON.stringify(save))
 }
-inputId = document.getElementById('TaskName');
-inputId.addEventListener('keyup', function onEvent(e) {
-    if (e.keyCode === 13) {
-        AddTask()
-    }
-});
 
 function ShowSettings() {
     if (document.getElementById("settings").innerHTML == "")
@@ -87,4 +82,31 @@ function ShowSettings() {
     else
         document.getElementById("settings").innerHTML = ""
 }
+
+function EditTask(id) {
+    if (curEdit != -1) {
+        document.getElementById('task' + curEdit).innerHTML = `${editField.value}<a href="javascript:RemoveTask(${curEdit})" title="Done" >✅</a><a href="javascript:EditTask(${curEdit})" title="Edit" >✏️</a>`
+        if (curEdit == id) {
+            curEdit = -1
+            return;
+        }
+    }
+    curEdit = id
+    newText = document.getElementById("task" + id).innerHTML.split("<")[0]
+    document.getElementById("task" + id).innerHTML = `<input type="text" id="edit" value="${newText}"></input><a href="javascript:RemoveTask(${id})" title="Done" >✅</a><a href="javascript:EditTask(${id})" title="Edit" >✏️</a>`
+    editField = document.getElementById('edit');
+    editField.addEventListener('keyup', function onEvent(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('task' + curEdit).innerHTML = `${editField.value}<a href="javascript:RemoveTask(${curEdit})" title="Done" >✅</a><a href="javascript:EditTask(${curEdit})" title="Edit" >✏️</a>`
+            curEdit = -1
+        }
+    });
+
+}
+taskField = document.getElementById('TaskName');
+taskField.addEventListener('keyup', function onEvent(e) {
+    if (e.keyCode === 13) {
+        AddTask()
+    }
+});
 RefreshTasks()
