@@ -38,3 +38,6 @@ ol>li:before {
 button {
     margin: 0 auto;
 }
+a {
+    text-decoration: none;
+}

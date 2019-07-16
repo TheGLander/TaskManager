@@ -15,8 +15,7 @@ if (save.version != version) {
 function RefreshTasks() {
     document.getElementById("tasks").innerHTML = ""
     for (var i = 0; i != save.tasks.length; i++) {
-        document.getElementById("tasks").innerHTML += "<li>" + save.tasks[i] +
-            '<input type="button" id="my_centered_buttons" value="Done" onclick="RemoveTask(' + i + ')" >\n'
+        document.getElementById("tasks").innerHTML += `<li><div id="task${i}">${save.tasks[i]}<a href="javascript:RemoveTask(${i})" title="Done" >✅</a><a href="javascript:RemoveTask(${i})" title="Edit" >✏️</a></div>\n`
     }
     localStorage.setItem("Save", JSON.stringify(save));
     save.version = version
@@ -86,6 +85,6 @@ function ShowSettings() {
     <input type="button" value="Export" onclick="ExportTasks()">
     <input type="text" id="Code"></p>`
     else
-    document.getElementById("settings").innerHTML = ""
+        document.getElementById("settings").innerHTML = ""
 }
 RefreshTasks()
