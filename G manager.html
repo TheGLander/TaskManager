@@ -12,13 +12,11 @@
 <body>
 
     <h1>Task manager!</h1>
+    <input type="button" value="Settings" onclick="ShowSettings()">
+    <div id="settings"></div>
     <ol id="tasks">
     </ol>
     <input type="text" id="TaskName"><input type="button" value="Add" id="AddTask" onclick="AddTask()">
-    <p><input type="button" value="Reset" onclick="ResetTasks()"></p>
-    <p><input type="button" value="Import" onclick="ImportTasks()">
-    <input type="button" value="Export" onclick="ExportTasks()">
-    <input type="text" id="Code"></p>
     <script src="tasks.js"></script>
 
 </body>

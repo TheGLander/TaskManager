@@ -39,7 +39,7 @@ function RemoveTask(id) {
 }
 
 function ResetTasks() {
-    save.tasks = ["Call mum","Dance"]
+    save.tasks = ["Call mum", "Dance"]
     RefreshTasks()
 }
 
@@ -78,4 +78,14 @@ inputId.addEventListener('keyup', function onEvent(e) {
         AddTask()
     }
 });
+
+function ShowSettings() {
+    if (document.getElementById("settings").innerHTML == "")
+        document.getElementById("settings").innerHTML = `<p><input type="button" value="Reset" onclick="ResetTasks()"></p>
+    <p><input type="button" value="Import" onclick="ImportTasks()">
+    <input type="button" value="Export" onclick="ExportTasks()">
+    <input type="text" id="Code"></p>`
+    else
+    document.getElementById("settings").innerHTML = ""
+}
 RefreshTasks()
